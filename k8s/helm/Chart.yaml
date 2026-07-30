@@ -1,0 +1,6 @@
+apiVersion: v2
+name: omnilog
+description: Helm Chart for OmniLog V2 Enterprise SIEM & SOAR Platform
+type: application
+version: 3.0.0
+appVersion: "3.0.0"

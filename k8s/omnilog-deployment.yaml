@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: omnilog-backend
+  namespace: omnilog
+  labels:
+    app: omnilog-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: omnilog-backend
+  template:
+    metadata:
+      labels:
+        app: omnilog-backend
+    spec:
+      containers:
+        - name: backend
+          image: omnilog-backend:latest
+          ports:
+            - containerPort: 5000
+              name: http
+            - containerPort: 5140
+              protocol: UDP
+              name: syslog-udp
+            - containerPort: 5140
+              protocol: TCP
+              name: syslog-tcp
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: omnilog-secrets
+                  key: database-url
+            - name: REDIS_URL
+              value: "redis://redis-service:6379"
+            - name: OPENSEARCH_URL
+              value: "http://opensearch-service:9200"
+          readinessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: omnilog-frontend
+  namespace: omnilog
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: omnilog-frontend
+  template:
+    metadata:
+      labels:
+        app: omnilog-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: omnilog-frontend:latest
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5

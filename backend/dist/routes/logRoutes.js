@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const logController_1 = require("../controllers/logController");
+const authMiddleware_1 = require("../middleware/authMiddleware");
+const router = (0, express_1.Router)();
+router.use(authMiddleware_1.authenticateJWT);
+router.get('/', logController_1.LogController.getLogs);
+router.get('/:id', logController_1.LogController.getLogById);
+exports.default = router;

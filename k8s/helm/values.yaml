@@ -1,0 +1,25 @@
+replicaCount:
+  backend: 3
+  frontend: 2
+
+image:
+  backend: omnilog-backend:v3.0
+  frontend: omnilog-frontend:v3.0
+
+service:
+  type: ClusterIP
+  httpPort: 5000
+  syslogPort: 5140
+
+opensearch:
+  enabled: true
+  replicas: 3
+
+redis:
+  enabled: true
+  architecture: replication
+
+postgresql:
+  enabled: true
+  auth:
+    database: omnilog_db

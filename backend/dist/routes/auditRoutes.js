@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auditController_1 = require("../controllers/auditController");
+const authMiddleware_1 = require("../middleware/authMiddleware");
+const client_1 = require("@prisma/client");
+const router = (0, express_1.Router)();
+router.use(authMiddleware_1.authenticateJWT);
+router.get('/', (0, authMiddleware_1.requireRole)([client_1.RoleName.ADMINISTRATOR, client_1.RoleName.AUDITOR]), auditController_1.AuditController.getAuditLogs);
+exports.default = router;
