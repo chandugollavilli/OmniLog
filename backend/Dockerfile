@@ -2,6 +2,9 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# Install OpenSSL for Prisma query engine on Alpine Linux
+RUN apk add --no-cache openssl
+
 COPY package*.json ./
 COPY prisma ./prisma/
 
@@ -16,13 +19,15 @@ FROM node:20-alpine AS runner
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install --only=production
+# Install OpenSSL for Prisma runtime on Alpine
+RUN apk add --no-cache openssl
 
+COPY package*.json ./
+COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 5000 5140/udp 5140/tcp 6514/tcp
 
-CMD ["node", "dist/server.js"]
+# Run Prisma schema push to auto-create database tables on container startup before launching backend
+CMD ["sh", "-c", "npx prisma db push --accept-data-loss && node dist/server.js"]
