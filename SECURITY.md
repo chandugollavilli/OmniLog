@@ -12,7 +12,7 @@
 The OmniLog core security team takes software security seriously. If you discover a security vulnerability within OmniLog, please report it privately rather than creating a public GitHub issue.
 
 ### How to Report
-- Email vulnerability reports to `security@omnilog.io`.
+- Email vulnerability reports to `chandugollavilli66@gmail.com`.
 - Include a detailed description of the vulnerability, proof-of-concept steps, and potential impact.
 - We will acknowledge your email within 24 hours and provide an estimated fix timeline.
 
