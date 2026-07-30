@@ -2,6 +2,8 @@
 
 Thank you for your interest in contributing to OmniLog! We welcome contributions from developers, security engineers, technical writers, and SOC analysts worldwide.
 
+Maintainer: **Chandra Gollavilli** ([chandugollavilli66@gmail.com](mailto:chandugollavilli66@gmail.com) | [LinkedIn](https://www.linkedin.com/in/chandragollavilli/))
+
 ---
 
 ## Code of Conduct
@@ -35,8 +37,8 @@ All contributors must adhere to our [Code of Conduct](CODE_OF_CONDUCT.md). Pleas
 ## Development Environment Setup
 
 ```bash
-git clone https://github.com/omnilog/omnilog.git
-cd omnilog
+git clone https://github.com/chandugollavilli/OmniLog.git
+cd OmniLog
 cp .env.example .env
 docker-compose up -d --build
 ```

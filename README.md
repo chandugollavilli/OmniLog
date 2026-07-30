@@ -26,7 +26,7 @@ OmniLog V3 is an open-source enterprise Log Management, SIEM, and SOAR Platform 
 ## 📁 Repository Structure
 
 ```
-/home/yal2603s/Desktop/log/
+OmniLog/
 ├── LICENSE                     # Apache 2.0 Open Source License
 ├── CONTRIBUTING.md              # Developer contribution guidelines
 ├── CODE_OF_CONDUCT.md          # Contributor Covenant Code of Conduct
@@ -50,8 +50,8 @@ OmniLog V3 is an open-source enterprise Log Management, SIEM, and SOAR Platform 
 
 ### Deploy with Docker Compose
 ```bash
-git clone https://github.com/omnilog/omnilog.git
-cd omnilog
+git clone https://github.com/chandugollavilli/OmniLog.git
+cd OmniLog
 cp .env.example .env
 docker-compose up -d --build
 ```
@@ -74,6 +74,15 @@ Access the UI at `http://localhost:3000` with default credentials:
 
 ---
 
+## 👨‍💻 Author & Maintainer
+
+**Chandra Gollavilli**
+- **Email**: [chandugollavilli66@gmail.com](mailto:chandugollavilli66@gmail.com)
+- **LinkedIn**: [https://www.linkedin.com/in/chandragollavilli/](https://www.linkedin.com/in/chandragollavilli/)
+- **GitHub**: [https://github.com/chandugollavilli](https://github.com/chandugollavilli)
+
+---
+
 ## 🛡️ License
 
-OmniLog is licensed under the [Apache 2.0 License](LICENSE).
+OmniLog is licensed under the [Apache 2.0 License](LICENSE). Copyright (c) 2026 Chandra Gollavilli.

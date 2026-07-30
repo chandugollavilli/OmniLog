@@ -28,4 +28,4 @@ This Code of Conduct applies within all community spaces, including GitHub repos
 
 ## Contact
 
-Report issues to `security@omnilog.io`.
+Report issues to Chandra Gollavilli at `chandugollavilli66@gmail.com`.

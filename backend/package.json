@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "OmniLog Backend Engine - Open-source FortiAnalyzer Alternative",
   "main": "dist/server.js",
+  "author": "Chandra Gollavilli <chandugollavilli66@gmail.com> (https://www.linkedin.com/in/chandragollavilli/)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chandugollavilli/OmniLog.git"
+  },
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
