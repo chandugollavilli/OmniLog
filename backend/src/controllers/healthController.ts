@@ -13,9 +13,10 @@ export class HealthController {
 
     const memoryUsage = process.memoryUsage();
     const queueStats = logQueue.getStats();
+    const isHealthy = dbStatus === 'HEALTHY';
 
-    return res.json({
-      status: dbStatus === 'HEALTHY' ? 'OK' : 'DEGRADED',
+    return res.status(isHealthy ? 200 : 503).json({
+      status: isHealthy ? 'OK' : 'DEGRADED',
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
       database: dbStatus,

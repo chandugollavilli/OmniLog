@@ -6,6 +6,7 @@ import { initSocketServer } from './websocket/socketServer';
 import { syslogReceiver } from './collectors/syslogReceiver';
 import { AuthService } from './services/authService';
 import { logQueue } from './collectors/logQueue';
+import { connectWithRetry } from './database/prisma';
 
 // Register Plugin Collectors into CollectorRegistry
 import { collectorRegistry } from './collectors/base/CollectorRegistry';
@@ -24,23 +25,33 @@ const server = http.createServer(app);
 // Initialize WebSockets
 initSocketServer(server);
 
-server.listen(env.PORT, async () => {
-  logger.info(`==========================================================`);
-  logger.info(`  OmniLog V2 Engine Running on Port ${env.PORT}`);
-  logger.info(`  Environment: ${env.NODE_ENV}`);
-  logger.info(`  Swagger API Docs: http://localhost:${env.PORT}/api/v1/docs`);
-  logger.info(`==========================================================`);
-
-  // Register Default Admin Account if Database is fresh
+async function startServer() {
   try {
-    await AuthService.registerDefaultAdmin();
-  } catch (err) {
-    logger.warn('Could not register default admin account:', err);
-  }
+    // Wait for database connection to be ready with retries
+    await connectWithRetry();
 
-  // Start Syslog Receiver (UDP/TCP listeners)
-  syslogReceiver.start();
-});
+    server.listen(env.PORT, async () => {
+      logger.info(`==========================================================`);
+      logger.info(`  OmniLog Engine Running on Port ${env.PORT}`);
+      logger.info(`  Environment: ${env.NODE_ENV}`);
+      logger.info(`  Swagger API Docs: http://localhost:${env.PORT}/api/v1/docs`);
+      logger.info(`==========================================================`);
+
+      // Register Default Admin Account if Database is fresh
+      try {
+        await AuthService.registerDefaultAdmin();
+      } catch (err) {
+        logger.warn('Could not register default admin account:', err);
+      }
+
+      // Start Syslog Receiver (UDP/TCP listeners)
+      syslogReceiver.start();
+    });
+  } catch (err) {
+    logger.error('Failed to start OmniLog server due to database initialization failure:', err);
+    process.exit(1);
+  }
+}
 
 const gracefulShutdown = () => {
   logger.info('Received shutdown signal. Stopping services cleanly...');
@@ -54,3 +65,5 @@ const gracefulShutdown = () => {
 
 process.on('SIGINT', gracefulShutdown);
 process.on('SIGTERM', gracefulShutdown);
+
+startServer();
